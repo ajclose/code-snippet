@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs');
 const User = require('../models/User')
+const Snippet = require('../models/Snippet')
 
 
 
@@ -26,6 +27,26 @@ router.post("/api/users", function(req, res) {
     res.status(422).json({
       error: error,
       user: user
+    })
+  })
+})
+
+router.post("/api/snippets", function(req, res) {
+  const snippet = new Snippet()
+  snippet.title = req.body.title
+  snippet.body = req.body.body
+  snippet.notes = req.body.notes
+  snippet.language = req.body.language
+  snippet.userid = req.body.userid
+  snippet.save()
+  .then(function(snippet) {
+    res.json({
+      snippet: snippet
+    })
+  })
+  .catch(function(error) {
+    res.status(422).json({
+      error: error
     })
   })
 })
