@@ -1,0 +1,9 @@
+
+{
+  "development": {
+    "mongoUrl": "mongodb://127.0.0.1:27017/snippets"
+  },
+  "test": {
+    "mongoUrl": "mongodb://127.0.0.1:27017/snippets_test"
+  }
+}
