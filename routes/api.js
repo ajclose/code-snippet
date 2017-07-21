@@ -61,7 +61,7 @@ router.get("/api/snippets/:id", function(req, res) {
     res.json({snippet: snippet})
   })
   .catch(function(error) {
-    res.status(422).json(error)
+    res.status(422).json({error: error})
   })
 })
 
@@ -77,6 +77,25 @@ router.get("/api/snippets", function(req, res) {
     Snippet.find(queryObject)
     .then(function(snippets) {
       res.json({snippets: snippets})
+    })
+  })
+
+  router.put("/api/snippets/:id", function(req, res) {
+    Snippet.findOne({
+      _id: req.params.id
+    })
+    .then(function(snippet) {
+      snippet.title = req.body.title
+      snippet.body = req.body.body
+      snippet.language = req.body.language
+      snippet.notes = req.body.notes
+      snippet.save()
+      .then(function(snippet) {
+        res.json({snippet: snippet})
+      })
+    })
+    .catch(function(error) {
+      res.status(422).json({error: error})
     })
   })
 

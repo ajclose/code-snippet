@@ -115,6 +115,27 @@ describe("adding a snippet", function() {
     })
     .end(done)
   })
+
+  it("successfully edits a snippet", function(done) {
+    const formData = {
+      title: "title update",
+      body: "body update",
+      notes: "notes update",
+      language: "language update"
+    }
+    supertest(app)
+    .put(`/api/snippets/${snippet._id}`)
+    .auth(user.username, user.password)
+    .send(formData)
+    .expect(200)
+    .expect(function(res) {
+      assert.equal(res.body.snippet.title, "title update")
+      assert.equal(res.body.snippet.body, "body update")
+      assert.equal(res.body.snippet.notes, "notes update")
+      assert.equal(res.body.snippet.language, "language update")
+    })
+    .end(done)
+  })
 })
 
 describe("getting snippets", function() {
