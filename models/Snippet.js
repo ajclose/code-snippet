@@ -19,7 +19,8 @@ const snippetSchema = new mongoose.Schema({
   userid: {
     type: String,
     ref: 'User'
-  }
+  },
+  tags: [String]
 })
 
 const Snippet = mongoose.model('Snippet', snippetSchema)

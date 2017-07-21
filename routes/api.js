@@ -38,6 +38,7 @@ router.post("/api/snippets", function(req, res) {
   snippet.notes = req.body.notes
   snippet.language = req.body.language
   snippet.userid = req.user._id
+  snippet.tags.push(req.body.tag)
   snippet.save()
   .then(function(snippet) {
     res.json({
@@ -52,12 +53,12 @@ router.post("/api/snippets", function(req, res) {
 })
 
 router.get("/api/snippets/:id", function(req, res) {
-  Snippet.find({
+  Snippet.findOne({
     _id: req.params.id
   })
   .populate('userid', 'username')
-  .then(function(user) {
-    res.json(user)
+  .then(function(snippet) {
+    res.json({snippet: snippet})
   })
   .catch(function(error) {
     res.status(422).json(error)
@@ -71,7 +72,7 @@ router.get("/api/snippets", function(req, res) {
       queryObject.language = new RegExp(req.query.language, 'i');
     }
     if(req.query.tag) {
-      queryObject.tag = new RegExp(req.query.tag, 'i')
+      queryObject.tags = new RegExp(req.query.tag, 'i')
     }
     Snippet.find(queryObject)
     .then(function(snippets) {

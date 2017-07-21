@@ -31,6 +31,7 @@ describe("adding a snippet", function() {
       s.notes = "notes"
       s.language = "javascript"
       s.userid = user._id
+      s.tags.push("tag")
       s.save()
       .then(function(s) {
         snippet = s
@@ -142,6 +143,7 @@ describe("getting snippets", function() {
       s.notes = "notes"
       s.language = "javascript"
       s.userid = user._id
+      s.tags.push("tag")
       s.save()
       .then(function(s) {
         snippet = s
@@ -165,6 +167,28 @@ describe("getting snippets", function() {
     .expect(200)
     .expect(function(res) {
       assert.equal(res.body.snippets[0].language, "javascript")
+    })
+    .end(done)
+  })
+
+  it("successfully returns all snippets with the specified tag", function(done) {
+    supertest(app)
+    .get("/api/snippets?tag=tag")
+    .auth(user.username, user.password)
+    .expect(200)
+    .expect(function(res) {
+      assert.include(res.body.snippets[0].tags, "tag")
+    })
+    .end(done)
+  })
+
+  it("successfully returns a specific snippet", function(done) {
+    supertest(app)
+    .get(`/api/snippets/${snippet._id}`)
+    .auth(user.username, user.password)
+    .expect(200)
+    .expect(function(res) {
+      assert.equal(res.body.snippet._id, snippet._id)
     })
     .end(done)
   })
