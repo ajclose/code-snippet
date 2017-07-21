@@ -31,7 +31,7 @@ describe("adding a snippet", function() {
       s.notes = "notes"
       s.language = "javascript"
       s.userid = user._id
-      s.tags.push("tag")
+      s.tags.push("tag", "tag1", "tag2")
       s.save()
       .then(function(s) {
         snippet = s
@@ -45,7 +45,8 @@ describe("adding a snippet", function() {
       title: "new title",
       body: "body",
       notes: "notes",
-      language: "javascript"
+      language: "javascript",
+      tags: "tag tag2 tag3"
     }
     supertest(app)
     .post("/api/snippets")
@@ -67,7 +68,8 @@ describe("adding a snippet", function() {
       body: "body",
       notes: "notes",
       language: "javascript",
-      userid: user._id
+      userid: user._id,
+      tags: "tag tag2 tag3"
     }
     supertest(app)
     .post("/api/snippets")
@@ -85,7 +87,8 @@ describe("adding a snippet", function() {
       title: "title",
       notes: "notes",
       language: "javascript",
-      userid: user._id
+      userid: user._id,
+      tags: "tag tag2 tag3"
     }
     supertest(app)
     .post("/api/snippets")
@@ -103,7 +106,8 @@ describe("adding a snippet", function() {
       title: "title",
       body: "body",
       notes: "notes",
-      userid: user._id
+      userid: user._id,
+      tags: "tag1 tag2 tag3"
     }
     supertest(app)
     .post("/api/snippets")
@@ -121,7 +125,8 @@ describe("adding a snippet", function() {
       title: "title update",
       body: "body update",
       notes: "notes update",
-      language: "language update"
+      language: "language update",
+      tags: "tag tag2 tag3"
     }
     supertest(app)
     .put(`/api/snippets/${snippet._id}`)
@@ -134,6 +139,14 @@ describe("adding a snippet", function() {
       assert.equal(res.body.snippet.notes, "notes update")
       assert.equal(res.body.snippet.language, "language update")
     })
+    .end(done)
+  })
+
+  it("successfully deletes a snippet", function(done) {
+    supertest(app)
+    .delete(`/api/snippets/${snippet._id}`)
+    .auth(user.username, user.password)
+    .expect(200)
     .end(done)
   })
 })
@@ -164,7 +177,7 @@ describe("getting snippets", function() {
       s.notes = "notes"
       s.language = "javascript"
       s.userid = user._id
-      s.tags.push("tag")
+      s.tags.push("tag", "tag1", "tag2")
       s.save()
       .then(function(s) {
         snippet = s
@@ -194,11 +207,11 @@ describe("getting snippets", function() {
 
   it("successfully returns all snippets with the specified tag", function(done) {
     supertest(app)
-    .get("/api/snippets?tag=tag")
+    .get("/api/snippets?tag=tag2")
     .auth(user.username, user.password)
     .expect(200)
     .expect(function(res) {
-      assert.include(res.body.snippets[0].tags, "tag")
+      assert.include(res.body.snippets[0].tags, "tag2")
     })
     .end(done)
   })
@@ -213,5 +226,4 @@ describe("getting snippets", function() {
     })
     .end(done)
   })
-
 })

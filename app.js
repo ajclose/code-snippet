@@ -4,6 +4,7 @@ const mustache = require('mustache-express')
 const bodyParser = require('body-parser')
 const apiRoute = require('./routes/api')
 const registrationRoute = require('./routes/registration')
+const homepageRoute = require('./routes/session')
 const mongoose = require('mongoose');
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
@@ -19,10 +20,19 @@ mongoose.connect(config.mongoUrl)
 
 app.engine('mustache', mustache() )
 app.set('view engine', 'mustache')
+app.set("layout", 'layout')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
+
+
+app.listen(3000, function() {
+  console.log("app is live!");
+})
+
+app.use(registrationRoute)
+app.use(homepageRoute)
 passport.use(new BasicStrategy(
   function(username, password, done) {
 
@@ -36,12 +46,6 @@ passport.use(new BasicStrategy(
     })
   }
 ));
-
-app.listen(3000, function() {
-  console.log("app is live!");
-})
-
-app.use(registrationRoute)
 app.use(passport.authenticate('basic', {session: false}))
 app.use(apiRoute)
 

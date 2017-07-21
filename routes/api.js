@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User')
 const Snippet = require('../models/Snippet')
 
-
+function createTags() {
+  const tags = req.body.tags.split(" ")
+}
 
 // router.get('/', function(req, res) {
 //   res.render('index')
@@ -38,7 +40,7 @@ router.post("/api/snippets", function(req, res) {
   snippet.notes = req.body.notes
   snippet.language = req.body.language
   snippet.userid = req.user._id
-  snippet.tags.push(req.body.tag)
+  snippet.tags.push(req.body.tags.split(" "))
   snippet.save()
   .then(function(snippet) {
     res.json({
@@ -96,6 +98,18 @@ router.get("/api/snippets", function(req, res) {
     })
     .catch(function(error) {
       res.status(422).json({error: error})
+    })
+  })
+
+  router.delete("/api/snippets/:id", function(req, res) {
+    Snippet.deleteOne({
+      _id: req.params.id
+    })
+    .then(function(snippet) {
+      res.json(snippet)
+    })
+    .catch(function(error) {
+      res.status(422).json(error)
     })
   })
 
