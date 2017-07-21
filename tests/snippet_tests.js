@@ -44,11 +44,11 @@ describe("adding a snippet", function() {
       title: "new title",
       body: "body",
       notes: "notes",
-      language: "javascript",
-      userid: user._id
+      language: "javascript"
     }
     supertest(app)
     .post("/api/snippets")
+    .auth(user.username, user.password)
     .send(formData)
     .expect(200)
     .expect(function(res) {
@@ -70,6 +70,7 @@ describe("adding a snippet", function() {
     }
     supertest(app)
     .post("/api/snippets")
+    .auth(user.username, user.password)
     .send(formData)
     .expect(422)
     .expect(function(res) {
@@ -87,6 +88,7 @@ describe("adding a snippet", function() {
     }
     supertest(app)
     .post("/api/snippets")
+    .auth(user.username, user.password)
     .send(formData)
     .expect(422)
     .expect(function(res) {
@@ -104,10 +106,65 @@ describe("adding a snippet", function() {
     }
     supertest(app)
     .post("/api/snippets")
+    .auth(user.username, user.password)
     .send(formData)
     .expect(422)
     .expect(function(res) {
       assert.equal(res.body.error.errors.language.message, "Language is required")
+    })
+    .end(done)
+  })
+})
+
+describe("getting snippets", function() {
+  let user = false;
+  let snippet = false;
+  afterEach(function(done){
+    Snippet.deleteMany()
+    .then(function(snippet) {
+      User.deleteMany()
+      .then(function(User){
+        done()
+      })
+    })
+  })
+  beforeEach(function(done){
+    const u = new User()
+    u.username = "test"
+    u.password = "password"
+    u.email = "test@test.com"
+    u.save()
+    .then( function(u){
+      user = u;
+      const s = new Snippet()
+      s.title = "title"
+      s.body = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada imperdiet commodo. Vivamus bibendum vitae quam eget accumsan. Vestibulum tincidunt, nisi et pharetra laoreet, ex nulla molestie ligula, id convallis elit tellus vehicula lorem. Mauris quis lacinia libero. Vivamus eget turpis augue. Donec ante quam, feugiat non accumsan eu, mattis at tortor. Morbi semper nibh dolor, vel posuere ligula tincidunt vel. Proin suscipit iaculis purus et placerat. Nulla at ex orci. Aliquam volutpat, erat vel dignissim dapibus, magna nulla egestas nisl, quis malesuada mi lacus ac neque. Ut tempor erat in ex imperdiet, ac consequat felis cursus. Donec porta, nisi."
+      s.notes = "notes"
+      s.language = "javascript"
+      s.userid = user._id
+      s.save()
+      .then(function(s) {
+        snippet = s
+        done();
+      })
+    })
+  })
+
+  it("successfully returns all of a user's snippets", function(done) {
+    supertest(app)
+    .get("/api/snippets")
+    .auth(user.username, user.password)
+    .expect(200)
+    .end(done)
+  })
+
+  it("successfully returns all snippets with the specified language", function(done) {
+    supertest(app)
+    .get("/api/snippets?language=javascript")
+    .auth(user.username, user.password)
+    .expect(200)
+    .expect(function(res) {
+      assert.equal(res.body.snippets[0].language, "javascript")
     })
     .end(done)
   })

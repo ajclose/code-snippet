@@ -17,6 +17,8 @@
     "express": "^4.15.3",
     "mongoose": "^4.10.8",
     "mustache-express": "^1.2.5",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
     "supertest": "^3.0.0"
   }
 }
