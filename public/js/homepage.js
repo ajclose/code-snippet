@@ -1,4 +1,15 @@
 const snippets = document.querySelector(".snippets")
+
+function snippetListing(snippet) {
+  return `
+  <div class="snippet-title">
+  <h3 id="${snippet._id}" class="title">${snippet.title}</h3>
+  <h4 class="language">${snippet.language}</h4>
+  <h5>Tags: ${snippet.tags}</h5>
+  </div>
+  `
+}
+
 function fetchSnippets() {
   snippets.textContent = ""
   fetch('/api/snippets', {
@@ -8,17 +19,9 @@ function fetchSnippets() {
     return res.json()
   })
   .then(function(json) {
-    console.log(json.snippets)
     for (var i = 0; i < json.snippets.length; i++) {
       const snippet = json.snippets[i]
-      console.log(snippet);
-      const html = `
-      <div class="snippet-title">
-      <h3 id="${snippet._id}" class="title">${snippet.title}</h3>
-      <h4>Language: ${snippet.language}</h4>
-      <h5>Tags: ${snippet.tags}</h5>
-      </div>
-      `
+      const html = snippetListing(snippet)
       snippets.insertAdjacentHTML("beforeend", html)
     }
     const titles = document.querySelectorAll(".title")
@@ -28,7 +31,14 @@ function fetchSnippets() {
       title.addEventListener('click', function(event) {
         fetchSnippet(snippetId)
       })
-
+      const languages = document.querySelectorAll(".language")
+      for (var i = 0; i < languages.length; i++) {
+        const language = languages[i]
+        const snippetLanguage = language.textContent
+        language.addEventListener('click', function(event) {
+          fetchLanguage(snippetLanguage)
+        })
+      }
     }
   })
 }
@@ -55,6 +65,24 @@ function fetchSnippet(id) {
     `
     snippets.insertAdjacentHTML("beforeend", html)
   })
+  }
+
+  function fetchLanguage(language) {
+    snippets.textContent = ''
+    fetch(`/api/snippets?language=${language}`, {
+      credentials: "include"
+    })
+    .then(function(res) {
+      return res.json()
+    })
+    .then(function(json) {
+      console.log(json);
+      for (var i = 0; i < json.snippets.length; i++) {
+        const snippet = json.snippets[i]
+        const html = snippetListing(snippet)
+        snippets.insertAdjacentHTML("beforeend", html)
+      }
+    })
   }
 
 

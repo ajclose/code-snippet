@@ -70,12 +70,14 @@ router.get("/api/snippets/:id", function(req, res) {
 router.get("/api/snippets", function(req, res) {
   const queryObject = {}
     queryObject.userid = req.user._id
-    if(req.query.langauge) {
+    console.log(req.query.language);
+    if(req.query.language) {
       queryObject.language = new RegExp(req.query.language, 'i');
     }
     if(req.query.tag) {
       queryObject.tags = new RegExp(req.query.tag, 'i')
     }
+    console.log(queryObject);
     Snippet.find(queryObject)
     .then(function(snippets) {
       res.json({snippets: snippets})
