@@ -6,26 +6,6 @@ const Snippet = require('../models/Snippet')
 
 
 
-router.get('/login', function(req, res) {
-  res.render('login')
-})
-
-router.post('/login', function(req, res) {
-  User.findOne({
-    username: req.body.username,
-    password: req.body.password
-  })
-  .then(function(user){
-    if(user) {
-      res.redirect('/')
-    } else {
-      res.render('login', {
-        user: user,
-        errors: "Username or password is incorrect"
-      })
-    }
-  })
-})
 
 router.post("/api/users", function(req, res) {
   // const username = req.body.username

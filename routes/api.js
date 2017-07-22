@@ -113,4 +113,10 @@ router.get("/api/snippets", function(req, res) {
     })
   })
 
+  router.get("/api/logout", function(req, res) {
+    console.log(req.user);
+    req.session.destroy()
+    res.redirect("/logout")
+  })
+
 module.exports = router
