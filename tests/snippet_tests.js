@@ -163,6 +163,21 @@ describe("adding a snippet", function() {
     })
     .end(done)
   })
+
+  it("successfully deletes a tag", function(done) {
+    const formData = {
+      tag: "tag"
+    }
+    supertest(app)
+    .delete(`/api/snippets/${snippet._id}/tags`)
+    .auth(user.username, user.password)
+    .send(formData)
+    .expect(200)
+    .expect(function(res) {
+      assert.equal(res.body.snippet.nModified, 1)
+    })
+    .end(done)
+  })
 })
 
 describe("getting snippets", function() {

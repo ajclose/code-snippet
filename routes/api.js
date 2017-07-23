@@ -135,4 +135,14 @@ router.get("/api/snippets", function(req, res) {
     })
   })
 
+  router.delete("/api/snippets/:id/tags", function(req, res) {
+    Snippet.update({_id: req.params.id}, {$pull: {tags: req.body.tag}})
+    .then(function(snippet) {
+      res.json({snippet: snippet})
+    })
+    .catch(function(error) {
+      res.status(422).json(error)
+    })
+  })
+
 module.exports = router
