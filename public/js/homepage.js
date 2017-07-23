@@ -1,11 +1,19 @@
 const snippets = document.querySelector(".snippets")
 
 function snippetListing(snippet) {
+  let tags = []
+  console.log("tags", snippet.tags[0].split(''));
+  for (var i = 0; i < snippet.tags.length; i++) {
+    const tag = snippet.tags[i]
+    console.log(tag);
+    tags.push(`<h5 class="tag">${tag}</h5>`)
+  }
+  console.log(tags);
   return `
   <div class="snippet-title">
   <h3 id="${snippet._id}" class="title">${snippet.title}</h3>
   <h4 class="language">${snippet.language}</h4>
-  <h5>Tags: ${snippet.tags}</h5>
+  <h5>Tags: </h5>${tags}
   </div>
   `
 }

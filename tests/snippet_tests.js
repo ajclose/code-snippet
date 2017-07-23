@@ -31,7 +31,7 @@ describe("adding a snippet", function() {
       s.notes = "notes"
       s.language = "javascript"
       s.userid = user._id
-      s.tags.push("tag", "tag1", "tag2")
+      s.tags.push("tag")
       s.save()
       .then(function(s) {
         snippet = s
@@ -46,7 +46,7 @@ describe("adding a snippet", function() {
       body: "body",
       notes: "notes",
       language: "javascript",
-      tags: "tag tag2 tag3"
+      tags: "tag"
     }
     supertest(app)
     .post("/api/snippets")
@@ -69,7 +69,7 @@ describe("adding a snippet", function() {
       notes: "notes",
       language: "javascript",
       userid: user._id,
-      tags: "tag tag2 tag3"
+      tags: "tag"
     }
     supertest(app)
     .post("/api/snippets")
@@ -88,7 +88,7 @@ describe("adding a snippet", function() {
       notes: "notes",
       language: "javascript",
       userid: user._id,
-      tags: "tag tag2 tag3"
+      tags: "tag"
     }
     supertest(app)
     .post("/api/snippets")
@@ -107,7 +107,7 @@ describe("adding a snippet", function() {
       body: "body",
       notes: "notes",
       userid: user._id,
-      tags: "tag1 tag2 tag3"
+      tags: "tag1"
     }
     supertest(app)
     .post("/api/snippets")
@@ -125,8 +125,7 @@ describe("adding a snippet", function() {
       title: "title update",
       body: "body update",
       notes: "notes update",
-      language: "language update",
-      tags: "tag tag2 tag3"
+      language: "language update"
     }
     supertest(app)
     .put(`/api/snippets/${snippet._id}`)
@@ -147,6 +146,21 @@ describe("adding a snippet", function() {
     .delete(`/api/snippets/${snippet._id}`)
     .auth(user.username, user.password)
     .expect(200)
+    .end(done)
+  })
+
+  it("successfully adds a tag", function(done) {
+    const formData = {
+      tag: "tag2"
+    }
+    supertest(app)
+    .post(`/api/snippets/${snippet._id}/tags`)
+    .auth(user.username, user.password)
+    .send(formData)
+    .expect(200)
+    .expect(function(res) {
+      assert.include(res.body.snippet.tags, "tag2")
+    })
     .end(done)
   })
 })

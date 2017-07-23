@@ -40,7 +40,7 @@ router.post("/api/snippets", function(req, res) {
   snippet.notes = req.body.notes
   snippet.language = req.body.language
   snippet.userid = req.user._id
-  snippet.tags.push(req.body.tags.split(" "))
+  snippet.tags.push(req.body.tag)
   snippet.save()
   .then(function(snippet) {
     res.json({
@@ -70,14 +70,12 @@ router.get("/api/snippets/:id", function(req, res) {
 router.get("/api/snippets", function(req, res) {
   const queryObject = {}
     queryObject.userid = req.user._id
-    console.log(req.query.language);
     if(req.query.language) {
       queryObject.language = new RegExp(req.query.language, 'i');
     }
     if(req.query.tag) {
       queryObject.tags = new RegExp(req.query.tag, 'i')
     }
-    console.log(queryObject);
     Snippet.find(queryObject)
     .then(function(snippets) {
       res.json({snippets: snippets})
@@ -119,6 +117,22 @@ router.get("/api/snippets", function(req, res) {
     console.log(req.user);
     req.session.destroy()
     res.redirect("/logout")
+  })
+
+  router.post("/api/snippets/:id/tags", function(req, res) {
+    Snippet.findOne({
+      _id: req.params.id
+    })
+    .then(function(snippet) {
+      snippet.tags.push(req.body.tag)
+      snippet.save()
+      .then(function(snippet) {
+        res.json({snippet: snippet})
+      })
+    })
+    .catch(function(error) {
+      res.status(422).json(error)
+    })
   })
 
 module.exports = router
