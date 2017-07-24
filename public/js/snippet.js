@@ -6,6 +6,7 @@ if (newSnippet) {
       title: document.querySelector("#title").value,
       language: document.querySelector("#language").value,
       body: document.querySelector("#body").value,
+      notes: document.querySelector("#notes").value,
       tag: document.querySelector("#tag").value
     }
 
@@ -35,6 +36,7 @@ if (editSnippet) {
       title: document.querySelector("#title").value,
       language: document.querySelector("#language").value,
       body: document.querySelector("#body").value,
+      notes: document.querySelector("#notes").value
     }
 
     fetch(`/api/snippets/${snippetId}`, {

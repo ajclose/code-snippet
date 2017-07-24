@@ -34,6 +34,7 @@ function displaySnippet(snippet) {
   <div class="code">
   ${snippet.body}
   </div>
+  <h4 class="notes">${snippet.notes}</h4>
   <div class="tags">
   <h5>Tags: </h5>${tags}
   </div>

@@ -10,6 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #16a085;
 }
 
 a {
@@ -41,6 +42,7 @@ a {
   border: 2px solid gray;
   text-align: center;
   width: 50%;
+  background-color: #ecf0f1;
 }
 
 .snippet-title .title {
@@ -72,6 +74,10 @@ a {
   flex-direction: column;
 }
 
+form {
+  background-color: #ecf0f1;
+}
+
 .nav {
   display: flex;
   justify-content: center;
@@ -91,6 +97,7 @@ a {
 
 .snippet {
   width: 60%;
+
 }
 
 .snippet .title {
@@ -121,6 +128,19 @@ form.login {
   display: flex;
   padding: 2px;
   border: 1px solid gray;
+  background-color: #ecf0f1;
+}
+
+.snippet .notes {
+  margin: 5px;
+}
+
+.deleteSnippet {
+  margin: 5px;
+}
+
+.snippet a {
+  margin: 5px;
 }
 
 .delete {
