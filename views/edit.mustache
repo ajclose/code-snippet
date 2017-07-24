@@ -1,0 +1,20 @@
+<div class="nav">
+  <a href="#">New Snippet</a>
+  <a href="/logout">Logout</a>
+</div>
+
+<form class="edit-snippet" id="{{snippet._id}}" action="/api/snippets" method="put">
+  <fieldset>
+    <legend>Edit Snippet!</legend>
+    <label for="title">Title: </label>
+    <input type="text" id="title" name="title" value="{{snippet.title}}" placeholder="Enter Title">
+    <label for="language">Language: </label>
+    <input type="text" id="language" name="language" value="{{snippet.language}}" placeholder="Enter Language">
+    <label for="body">Enter Code: </label>
+    <textarea name="body" id="body" rows="8" cols="80" placeholder="Enter Code">{{snippet.body}}</textarea>
+
+    <input type="submit" name="submit" value="Edit Snippet">
+  </fieldset>
+</form>
+
+<script src="/js/snippet.js" charset="utf-8"></script>

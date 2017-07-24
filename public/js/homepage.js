@@ -25,6 +25,10 @@ function displaySnippet(snippet) {
   }
   return `
   <div class="snippet">
+  <form class="deleteSnippet" id="${snippet._id}" action="" method="delete">
+  <input type="submit" value="Delete Snippet">
+  </form>
+  <a href="/edit/${snippet._id}">Edit</a>
   <h2 class="title">${snippet.title}</h2>
   <h3 class="language">${snippet.language}</h3>
   <div class="code">
@@ -131,6 +135,29 @@ function addTag() {
   })
 }
 
+function deleteSnippet() {
+  const deleteSnippet = document.querySelector("form.deleteSnippet")
+  deleteSnippet.addEventListener('submit', function(event) {
+    event.preventDefault()
+    if (confirm("Are you sure you want to delete this snippet?")) {
+      const snippetId = deleteSnippet.id
+      fetch(`/api/snippets/${snippetId}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+              "content-type": "application/json"
+            }
+      })
+      .then(function(res) {
+        return res.json()
+      })
+      .then(function(json) {
+        fetchSnippets()
+      })
+    }
+  })
+}
+
 function fetchSnippets() {
   snippets.textContent = ""
   fetch('/api/snippets', {
@@ -168,6 +195,7 @@ function fetchSnippet(id) {
     getTags()
     deleteTag()
     addTag()
+    deleteSnippet()
   })
   }
 

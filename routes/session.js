@@ -60,4 +60,15 @@ router.get("/new", auth, function(req,res) {
   res.render('new')
 })
 
+router.get("/edit/:id", function(req, res) {
+  Snippet.findOne({
+    _id: req.params.id
+  })
+  .then(function(snippet) {
+      res.render('edit', {
+        snippet: snippet
+      })
+  })
+})
+
 module.exports = router

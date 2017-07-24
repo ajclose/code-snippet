@@ -67,6 +67,11 @@ a {
   flex-direction: column;
 }
 
+.edit-snippet fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
 .nav {
   display: flex;
   justify-content: center;
