@@ -113,12 +113,6 @@ router.get("/api/snippets", function(req, res) {
     })
   })
 
-  router.get("/api/logout", function(req, res) {
-    console.log(req.user);
-    req.session.destroy()
-    res.redirect("/logout")
-  })
-
   router.post("/api/snippets/:id/tags", function(req, res) {
     Snippet.findOne({
       _id: req.params.id

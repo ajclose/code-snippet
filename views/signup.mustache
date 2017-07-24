@@ -3,20 +3,20 @@
   <a href="/signup">Sign Up</a>
 </div>
 
-<form class="" action="/signup" method="post">
+<form class="signup" action="/signup" method="post">
   <fieldset>
     <legend>Sign up!</legend>
-    {{error.errors.email}}
+    <p class="error">{{emailError}}</p>
     <div class="input">
     <label for="email">Email</label>
     <input type="email" id="email" name="email" value="{{user.email}}" placeholder="Enter Email Address">
     </div>
-    {{error.errors.username}}
+    <p class="error">{{usernameError}}</p>
     <div class="input">
     <label for="username">Username</label>
     <input type="text" id="username" name="username" value="{{user.username}}" placeholder="Enter Username">
     </div>
-
+    <p class="error">{{passwordError}}</p>
     <div class="input">
     <label for="password">Password</label>
     <input type="password" id="password" name="password" value="" placeholder="Enter Password">

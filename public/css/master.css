@@ -28,6 +28,10 @@ a {
   color: red;
 }
 
+header a h1 {
+  color: #ecf0f1;
+}
+
 .tags {
   display: flex;
   flex-direction: row;
@@ -74,8 +78,24 @@ a {
   flex-direction: column;
 }
 
-form {
+form.login {
   background-color: #ecf0f1;
+  padding: 10px;
+}
+
+form.signup {
+  background-color: #ecf0f1;
+  padding: 10px;
+}
+
+form.new-snippet {
+  background-color: #ecf0f1;
+  padding: 10px;
+}
+
+form.edit_snippet {
+  background-color: #ecf0f1;
+  padding: 10px;
 }
 
 .nav {
@@ -86,6 +106,7 @@ form {
 .nav a {
   margin: 10px;
   text-decoration: none;
+  color: #ecf0f1;
 }
 
 .snippets {
@@ -97,7 +118,6 @@ form {
 
 .snippet {
   width: 60%;
-
 }
 
 .snippet .title {
@@ -111,10 +131,6 @@ form {
 .snippet .tags {
   justify-content: flex-start;
   margin: 5px;
-
-}
-
-form.login {
 
 }
 
