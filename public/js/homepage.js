@@ -21,12 +21,12 @@ function displaySnippet(snippet) {
   let tags = []
   for (var i = 0; i < snippet.tags.length; i++) {
     const tag = snippet.tags[i]
-    tags.push(`<h5 class="tag">${tag}</h5>`)
+    tags.push(`<h5 class="tag">${tag} <form class="deleteTag" action="" method="delete"> <input class="delete" id="${snippet._id}" type="submit" name="${tag}" value="x"></form> </h5>`)
   }
   return `
   <div class="snippet">
-  <h2>${snippet.title}</h2>
-  <h3>${snippet.language}</h3>
+  <h2 class="title">${snippet.title}</h2>
+  <h3 class="language">${snippet.language}</h3>
   <div class="code">
   ${snippet.body}
   </div>
@@ -70,6 +70,37 @@ function getTags() {
   }
 }
 
+function deleteTag() {
+  const deleteTagButtons = document.querySelectorAll("form.deleteTag")
+  console.log("sup", deleteTagButtons);
+  for (var i = 0; i < deleteTagButtons.length; i++) {
+    const deleteTagButton = deleteTagButtons[i]
+    deleteTagButton.addEventListener("submit", function(event) {
+      event.preventDefault()
+      console.log("clicked");
+      const tag = deleteTagButton.querySelector(".delete").name
+      const snippetId = deleteTagButton.querySelector(".delete").id
+      const formData = {
+        tag: tag
+      }
+      fetch(`/api/snippets/${snippetId}/tags`, {
+        method: "DELETE",
+        credentials: "include",
+        body: JSON.stringify(formData),
+        headers: {
+               "content-type": "application/json"
+             }
+      })
+      .then(function(res) {
+        return res.json()
+      })
+      .then(function(json) {
+        fetchSnippet(snippetId)
+      })
+    })
+  }
+}
+
 function fetchSnippets() {
   snippets.textContent = ""
   fetch('/api/snippets', {
@@ -105,6 +136,7 @@ function fetchSnippet(id) {
     getTitles()
     getLanguages()
     getTags()
+    deleteTag()
   })
   }
 
@@ -125,6 +157,7 @@ function fetchSnippet(id) {
       getTitles()
       getLanguages()
       getTags()
+
     })
   }
 

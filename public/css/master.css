@@ -12,6 +12,17 @@ body {
   align-items: center;
 }
 
+a {
+  text-decoration: none;
+}
+
+.container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .error {
   color: red;
 }
@@ -20,23 +31,97 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  justify-content: center;
+  font-size: 18px;
 }
 
 .snippet-title {
   padding: 10px;
   margin: 10px;
   border: 2px solid gray;
+  text-align: center;
+  width: 50%;
+}
+
+.snippet-title .title {
+  margin: 5px;
+  font-size: 25px;
+}
+
+.snippet-title .language {
+  margin: 5px;
+  font-size: 20px;
 }
 
 .code {
   background-color: #34495e;
   color: #2ecc71;
-  padding: 10px;
+  padding: 20px;
   height: 20vh;
   font-family: courier;
+  margin: 5px;
 }
 
 .new-snippet fieldset {
   display: flex;
   flex-direction: column;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+}
+
+.nav a {
+  margin: 10px;
+  text-decoration: none;
+}
+
+.snippets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.snippet {
+  width: 60%;
+}
+
+.snippet .title {
+  margin: 5px;
+}
+
+.snippet .language {
+  margin: 5px;
+}
+
+.snippet .tags {
+  justify-content: flex-start;
+  margin: 5px;
+
+}
+
+form.login {
+
+}
+
+.input {
+  margin: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tag {
+  display: flex;
+  padding: 2px;
+  border: 1px solid gray;
+}
+
+.delete {
+  margin: 0 2px;
+  color: red;
+  border: none;
+  background: none;
+  padding: 2px;
 }
