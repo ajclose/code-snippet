@@ -33,6 +33,10 @@ function displaySnippet(snippet) {
   <div class="tags">
   <h5>Tags: </h5>${tags}
   </div>
+  <form class="addTag" id="${snippet._id}" action="" method="post">
+  <input class="newTag" type="text" name="tag" placeholder="Enter Tag">
+  <input type="submit" value="Add Tag">
+  </form>
   </div>
   `
 }
@@ -77,28 +81,54 @@ function deleteTag() {
     const deleteTagButton = deleteTagButtons[i]
     deleteTagButton.addEventListener("submit", function(event) {
       event.preventDefault()
-      console.log("clicked");
-      const tag = deleteTagButton.querySelector(".delete").name
-      const snippetId = deleteTagButton.querySelector(".delete").id
-      const formData = {
-        tag: tag
+      if (confirm("Are you sure you want to remove this tag?")) {
+        const tag = deleteTagButton.querySelector(".delete").name
+        const snippetId = deleteTagButton.querySelector(".delete").id
+        const formData = {
+          tag: tag
+        }
+        fetch(`/api/snippets/${snippetId}/tags`, {
+          method: "DELETE",
+          credentials: "include",
+          body: JSON.stringify(formData),
+          headers: {
+                 "content-type": "application/json"
+               }
+        })
+        .then(function(res) {
+          return res.json()
+        })
+        .then(function(json) {
+          fetchSnippet(snippetId)
+        })
+      } else {
+        event.preventDefault()
       }
-      fetch(`/api/snippets/${snippetId}/tags`, {
-        method: "DELETE",
-        credentials: "include",
-        body: JSON.stringify(formData),
-        headers: {
-               "content-type": "application/json"
-             }
-      })
-      .then(function(res) {
-        return res.json()
-      })
-      .then(function(json) {
-        fetchSnippet(snippetId)
-      })
     })
   }
+}
+
+function addTag() {
+  const addTag = document.querySelector("form.addTag")
+  addTag.addEventListener("submit", function(event) {
+    event.preventDefault()
+    const snippetId = addTag.id
+    const tag = addTag.querySelector(".newTag").value
+    fetch(`/api/snippets/${snippetId}/tags`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({tag: tag}),
+      headers: {
+            "content-type": "application/json"
+          }
+    })
+    .then(function(res) {
+      return res.json()
+    })
+    .then(function(json) {
+      fetchSnippet(snippetId)
+    })
+  })
 }
 
 function fetchSnippets() {
@@ -137,6 +167,7 @@ function fetchSnippet(id) {
     getLanguages()
     getTags()
     deleteTag()
+    addTag()
   })
   }
 
