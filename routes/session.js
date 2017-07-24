@@ -56,4 +56,8 @@ router.get("/logout", function(req, res) {
   res.redirect("/login")
 })
 
+router.get("/new", auth, function(req,res) {
+  res.render('new')
+})
+
 module.exports = router

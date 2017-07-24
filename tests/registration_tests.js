@@ -30,7 +30,7 @@ describe("account registration", function() {
       password: "password"
     }
     supertest(app)
-    .post('/api/users')
+    .post('/signup')
     .send(formData)
     .expect(200)
     .expect(function(res) {
@@ -47,7 +47,7 @@ describe("account registration", function() {
       password: "password"
     }
     supertest(app)
-    .post('/api/users')
+    .post('/signup')
     .send(formData)
     .expect(422)
     .expect(function(res) {
@@ -62,7 +62,7 @@ describe("account registration", function() {
       password: "password"
     }
     supertest(app)
-    .post('/api/users')
+    .post('/signup')
     .send(formData)
     .expect(422)
     .expect(function(res) {
@@ -77,7 +77,7 @@ describe("account registration", function() {
       email: "email@email.com"
     }
     supertest(app)
-    .post('/api/users')
+    .post('/signup')
     .send(formData)
     .expect(422)
     .expect(function(res) {
@@ -93,7 +93,7 @@ describe("account registration", function() {
       password: "password"
     }
     supertest(app)
-    .post('/api/users')
+    .post('/signup')
     .send(formData)
     .expect(422)
     .expect(function(res) {
@@ -109,7 +109,7 @@ describe("account registration", function() {
       password: "password"
     }
     supertest(app)
-    .post('/api/users')
+    .post('/signup')
     .send(formData)
     .expect(422)
     .expect(function(res) {

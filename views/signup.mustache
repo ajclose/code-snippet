@@ -1,0 +1,33 @@
+<div class="nav">
+  <a href="/login">Login</a>
+  <a href="/signup">Sign Up</a>
+</div>
+
+<form class="" action="/signup" method="post">
+  <fieldset>
+    <legend>Sign up!</legend>
+    {{error.errors.email}}
+    <div class="signup-input">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="{{user.email}}" placeholder="Enter Email Address">
+    </div>
+    {{error.errors.username}}
+    <div class="signup-input">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" value="{{user.username}}" placeholder="Enter Username">
+    </div>
+
+    <div class="signup-input">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" value="" placeholder="Enter Password">
+    </div>
+
+    <div class="signup-input">
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" value="" placeholder="Confirm Password">
+    </div>
+
+    <input type="submit" name="signup" value="Sign Up!">
+  </fieldset>
+</form>
+<a href="/login">Login</a>

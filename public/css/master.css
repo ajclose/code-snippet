@@ -21,3 +21,22 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
+.snippet-title {
+  padding: 10px;
+  margin: 10px;
+  border: 2px solid gray;
+}
+
+.code {
+  background-color: #34495e;
+  color: #2ecc71;
+  padding: 10px;
+  height: 20vh;
+  font-family: courier;
+}
+
+.new-snippet fieldset {
+  display: flex;
+  flex-direction: column;
+}

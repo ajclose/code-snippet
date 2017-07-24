@@ -5,9 +5,11 @@ const User = require('../models/User')
 const Snippet = require('../models/Snippet')
 
 
+router.get("/signup", function(req, res) {
+  res.render('signup')
+})
 
-
-router.post("/api/users", function(req, res) {
+router.post("/signup", function(req, res) {
   // const username = req.body.username
   // const email = req.body.email
   // const password = req.body.password
@@ -18,10 +20,12 @@ router.post("/api/users", function(req, res) {
   user.password = req.body.password
   user.save()
   .then(function(user) {
-    res.json(user)
+    req.session.userid = user._id
+    res.redirect("/")
   })
   .catch(function(error) {
-    res.status(422).json({
+    console.log(error);
+    res.render('signup',{
       error: error,
       user: user
     })
