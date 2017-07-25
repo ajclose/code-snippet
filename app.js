@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const User = require('./models/User')
+const bcrypt = require('bcryptjs')
 
 
 // const nodeEnv = process.env.NODE_ENV || "development";
@@ -37,9 +38,9 @@ app.use(homepageRoute)
 passport.use(new BasicStrategy(
   function(username, password, done) {
 
-    User.findOne({username: username, password: password})
+    User.findOne({username: username})
     .then( function(account){
-      if(account){
+      if(bcrypt.compareSync(password, account.password)){
         done(null, account)
       } else {
         done(null, false)
