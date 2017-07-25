@@ -11,10 +11,10 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 const User = require('./models/User')
 
 
-const nodeEnv = process.env.NODE_ENV || "development";
-const config = require("./config")[nodeEnv]
-// If we are testing, use "mongodb://127.0.0.1:27017/atm_test"
-console.log("We are using config.mongoUrl", config.mongoUrl)
+// const nodeEnv = process.env.NODE_ENV || "development";
+// const config = require("./config")[nodeEnv]
+// // If we are testing, use "mongodb://127.0.0.1:27017/atm_test"
+// console.log("We are using config.mongoUrl", config.mongoUrl)
 mongoose.Promise = require('bluebird');
 const mongoURL = process.env.MONGODB_URI || "mongodb://0.0.0.0:27017/snippets"
 mongoose.connect(mongoURL)
