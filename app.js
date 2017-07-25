@@ -16,7 +16,8 @@ const config = require("./config")[nodeEnv]
 // If we are testing, use "mongodb://127.0.0.1:27017/atm_test"
 console.log("We are using config.mongoUrl", config.mongoUrl)
 mongoose.Promise = require('bluebird');
-mongoose.connect(config.mongoUrl)
+const mongoURL = process.env.MONGODB_URI || "mongodb://0.0.0.0:27017/snippets"
+mongoose.connect(mongoURL)
 
 app.engine('mustache', mustache() )
 app.set('view engine', 'mustache')
@@ -25,9 +26,9 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
+const port = process.env.PORT || 3000;
 
-
-app.listen(3000, function() {
+app.listen(port, function() {
   console.log("app is live!");
 })
 
