@@ -10,8 +10,8 @@ router.get("/signup", function(req, res) {
 })
 
 router.post("/signup", function(req, res) {
-  const username = req.body.username
-  const email = req.body.email
+  const newUsername = req.body.username
+  const newEmail = req.body.email
   const password = req.body.password
   const confirmPassword = req.body.confirmPassword
   const hash = bcrypt.hashSync(password, 8)
@@ -19,20 +19,22 @@ router.post("/signup", function(req, res) {
   let passwordError;
   let emailError;
   User.findOne({
-      email: email
+      email: newEmail
     })
     .then(function(email) {
+      console.log("email",email);
       User.findOne({
-        username: username
+        username: newUsername
       })
-    })
+
     .then(function(user) {
       if (!email) {
+        console.log("there is no email");
         if (!user) {
           if (password === confirmPassword) {
             const user = new User()
-            user.username = username
-            user.email = email
+            user.username = newUsername
+            user.email = newEmail
             user.password = hash
             user.save()
               .then(function(user) {
@@ -40,13 +42,12 @@ router.post("/signup", function(req, res) {
                 res.redirect("/")
               })
               .catch(function(errors) {
+                console.log("errors", errors.errors);
                 if (errors.errors.username) {
                   usernameError = errors.errors.username.message
-                  console.log(usernameError);
                 }
                 if (errors.errors.email) {
                   emailError = errors.errors.email.message
-                  console.log(emailError);
                   if (errors.errors.password) {
                     passwordError = errors.errors.password.message
                   }
@@ -67,6 +68,7 @@ router.post("/signup", function(req, res) {
         emailError: emailError,
         user: user
       })
+    })
     })
 })
 

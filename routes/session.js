@@ -32,10 +32,9 @@ router.get('/login', function(req, res) {
 router.post('/login', function(req, res) {
   User.findOne({
     username: req.body.username,
-    password: req.body.password
   })
   .then(function(user){
-    if(user) {
+    if(bcrypt.compareSync(req.body.password, user.password)) {
       req.session.userid = user._id
       res.redirect('/')
     } else {
